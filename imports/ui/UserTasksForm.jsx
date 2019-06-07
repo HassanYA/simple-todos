@@ -14,7 +14,7 @@ class UserTasksForm extends Component
     {
         super(props);
         this.state = {
-          selectedUser: this.users().first()
+            selectedUser: this.users().first()
         };
 
         this.changeSelectedUser = this.changeSelectedUser.bind(this);
@@ -25,25 +25,29 @@ class UserTasksForm extends Component
         return collect(this.props.users).keyBy("_id");
     }
 
-    changeSelectedUser(event) {
+    changeSelectedUser(event)
+    {
         this.setState({
             selectedUser: this.users().all()[event.target.value],
         });
     }
 
-    componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps)
+    {
         const oldProps = this.props;
-        if(oldProps.users !== newProps.users) {
+        if (oldProps.users !== newProps.users) {
             this.setState({
                 selectedUser: collect(newProps.users).first()
             });
         }
     }
 
-    render(){
+    render()
+    {
         return (
             <form>
-                <select value={this.state.selectedUser ? this.state.selectedUser._id: ''} onChange={this.changeSelectedUser}>
+                <select value={this.state.selectedUser ? this.state.selectedUser._id : ''}
+                        onChange={this.changeSelectedUser}>
                     {this.props.users.map((user) =>
                         <option value={user._id} key={user._id}>
                             {user.username}
@@ -58,7 +62,7 @@ class UserTasksForm extends Component
 }
 
 
-export default withTracker((props)=>{
+export default withTracker((props) => {
     let subscription = Meteor.subscribe('users');
     const users = subscription.ready() ? Users.find({}).fetch() : [];
     return {
